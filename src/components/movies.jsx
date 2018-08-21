@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import _ from "lodash";
 import { toast } from "react-toastify";
 import { getMovies, deleteMovie } from "../services/movieService";
@@ -98,6 +99,7 @@ class Movies extends Component {
   render() {
     const { length: count } = this.state.movies;
     const { currentPage, pageSize, sortColumn } = this.state;
+    const { user } = this.props;
 
     if (count === 0) return <p>There are no movies in the database.</p>;
 
@@ -113,9 +115,15 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          <button className="btn btn-primary" onClick={this.handleMovie}>
-            New Movie
-          </button>
+          {user && (
+            <Link
+              className="btn btn-primary"
+              to="/movies/new"
+              style={{ marginBottom: 20 }}
+            >
+              New Movie
+            </Link>
+          )}
           <p>Showing {totalCount} movies in the database.</p>
           <SearchBox value={this.searchQuery} onChange={this.handleSearch} />
           <MoviesTable
